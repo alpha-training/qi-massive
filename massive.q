@@ -1,5 +1,4 @@
 / 1 import libraries
-\d .massive
 .qi.import`ipc
 conf:.qi.parseconf`:defaults.conf; /placeholder
 /--- 2. Connection Setup --- /Maybe all sestting??within file
@@ -14,7 +13,7 @@ TICKER:conf.tickers;
 / massive.run function
 start:{[tp_n]
     .m.tp::tp_n;
-    .z.ws:{[msg;]
+    .z.ws:{[msg]
         packets:.j.k msg;
         / Massive sends a list of dicts
         {
@@ -30,7 +29,7 @@ start:{[tp_n]
                 9h$x`vw;                          / VWAP (vw)
                 7h$x`v                            / Volume (v)
             ));
-            -1 "qi.ingest: Captured ",x[`sym], " at ",string[x`c];
+            -1 "qi.ingest: Captured ",x[`sym]," at ",string[x`c];
             ];
             / If it's a status packet, handle the handshake/auth
             if[x[`ev]~"status";
@@ -46,4 +45,3 @@ start:{[tp_n]
     }
 
 
-\d .
