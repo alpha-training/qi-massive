@@ -1,6 +1,6 @@
 / 1 import libraries
 .qi.import`ipc
-conf:.qi.parseconf`:default.conf; /placeholder
+conf:.qi.parseconf`:defaults.conf; /placeholder
 
 /--- 2. Connection Setup --- /Maybe all sestting??within file
 $[conf.mode="live";l:"socket";l:"delayed"]
@@ -9,7 +9,7 @@ header:"GET /stocks HTTP/1.1\r\nHost: ",l".massive.com\r\n\r\n"; // delayed or l
 API_KEY:"rSQLz8C1muscWBydEkoAWpW4RH9CW_wq"; //WILL NEED TO BE EDITABLE potentially within funciton or in conf??
 DATA:conf.data
 TICKERS:"AM.*";
-TICKERS:conf.tickers
+TICKER:conf.tickers
 
 / massive.run function
 .massive.start:{[tp_n]
