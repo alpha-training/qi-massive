@@ -1,6 +1,6 @@
 / 1 import libraries
 .qi.import`ipc
-conf:qi.parseconf`:default.conf; /placeholder
+conf:.qi.parseconf`:default.conf; /placeholder
 
 /--- 2. Connection Setup --- /Maybe all sestting??within file
 $[conf.mode="live";l:"socket";l:"delayed"]
