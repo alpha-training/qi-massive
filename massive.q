@@ -1,4 +1,5 @@
 / 1 import libraries
+\d .massive
 .qi.import`ipc
 conf:.qi.parseconf`:defaults.conf; /placeholder
 /--- 2. Connection Setup --- /Maybe all sestting??within file
@@ -45,3 +46,4 @@ start:{[tp_n]
     }
 
 
+\d .
