@@ -1,5 +1,5 @@
 / 1 import libraries
-.qi.import`ipc
+/.qi.import`ipc
 
 /--- 2. Connection Setup --- /Maybe all sestting??within file
 url:":wss://delayed.massive.com:443";
@@ -8,14 +8,14 @@ API_KEY:"rSQLz8C1muscWBydEkoAWpW4RH9CW_wq"; //WILL NEED TO BE EDITABLE potential
 TICKERS:"AM.*";
 
 / massive.run function
-.massive.start:{[tpport]
+.massive.start:{[tp]
     .z.ws:{[msg]
-        packets:.j.k msg
+        packets:.j.k msg;
         / Massive sends a list of dicts
         {
             / If it's a data packet (AM)
             if[x[`ev]~"AM";
-                neg[.ipc.conn tpport](`.u.upd;`$x`ev;(
+                neg[.ipc.conn tp](`.u.upd;`$x`ev;(
                 12h$1970.01.01D+1000000*7h$x`s; / Start Time (s) 
                 `$x`sym;                        / Symbolcd ..
                 9h$x`o;                           / Open
