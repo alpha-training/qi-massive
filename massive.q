@@ -1,21 +1,26 @@
 / 1 import libraries
-/.qi.import`ipc
+.qi.import`ipc
+conf:qi.loadcfg`:default.conf; /placeholder
 
 /--- 2. Connection Setup --- /Maybe all sestting??within file
-url:":wss://delayed.massive.com:443";
-header:"GET /stocks HTTP/1.1\r\nHost: delayed.massive.com\r\n\r\n";
+$[conf.mode="live";l:"socket";l:"delayed"]
+url:":wss://",l,".massive.com:443";
+header:"GET /stocks HTTP/1.1\r\nHost: ",l".massive.com\r\n\r\n"; // delayed or live stream shoul be optional
 API_KEY:"rSQLz8C1muscWBydEkoAWpW4RH9CW_wq"; //WILL NEED TO BE EDITABLE potentially within funciton or in conf??
+DATA:conf.data
 TICKERS:"AM.*";
+TICKERS:conf.tickers
 
 / massive.run function
-.massive.start:{[tp]
-    .z.ws:{[msg]
+.massive.start:{[tp_n]
+    .m.tp::tp_n;
+    .z.ws:{[msg;]
         packets:.j.k msg;
         / Massive sends a list of dicts
         {
             / If it's a data packet (AM)
             if[x[`ev]~"AM";
-                neg[.ipc.conn tp](`.u.upd;`$x`ev;(
+                neg[.ipc.conn y](`.u.upd;`$x`ev;(
                 12h$1970.01.01D+1000000*7h$x`s; / Start Time (s) 
                 `$x`sym;                        / Symbolcd ..
                 9h$x`o;                           / Open
@@ -27,14 +32,13 @@ TICKERS:"AM.*";
             ));
             -1 "qi.ingest: Captured ",x[`sym], " at ",string[x`c];
             ];
-
             / If it's a status packet, handle the handshake/auth
             if[x[`ev]~"status";
                 if[x[`status]~"connected";neg[.z.w] .j.j`action`params!("auth";API_KEY)];
                 if[x[`status]~"auth_success";neg[.z.w] .j.j`action`params!("subscribe";TICKERS)];
                 -1 "qi.status: ",x`message;
             ];
-        }each packets;
+        }[;.m.tp]each packets;
     };
     /launch pipe
     w:hsym[`$url]header;
