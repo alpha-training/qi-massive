@@ -1,6 +1,7 @@
 \e 1
 / 1. import libraries
 .qi.import`ipc;
+.qi.frompkg[`massive;`norm]     / load norm.q
 
 \d .massive
 

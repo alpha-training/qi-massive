@@ -1,0 +1,5 @@
+/ Normalisation functions
+
+norm.A:{
+
+  }
