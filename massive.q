@@ -35,9 +35,10 @@ start:{[target]
             .log.fatal"Could not connect to ",.qi.tostr[target]," '",last[c],"'. Exiting"]];
     .log.info "Connection sequence initiated...";
     if[not h:first c:.qi.try1[url;header;0Ni];
-        .log.error c 2;
-        if[.z.o in`l64`m64;
-            .log.info"Try setting the env variable:\nexport SSL_VERIFY_SERVER=NO"]];
+        .log.error err:c 2;
+        if[err like"*Protocol*";
+            if[.z.o in`l64`m64;
+                .log.info"Try setting the env variable:\nexport SSL_VERIFY_SERVER=NO"]]];
     if[h;.log.info"Connection success"];
     }
 
