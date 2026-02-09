@@ -33,12 +33,15 @@ start:{[target]
     if[null H::.ipc.conn .qi.tosym target;
         if[null H::first c:.ipc.tryconnect target;
             .log.fatal"Could not connect to ",.qi.tostr[target]," '",last[c],"'. Exiting"]];
-    w:url header;
-    .log.info "qi-massive: Connection sequence initiated...";
-    .log.info $[first w>0;"Connection Success with handle: ",string w 0;"Connection Failed"];
+    .log.info "Connection sequence initiated...";
+    if[not first c:.qi.try1[url;header;0Ni];
+        .log.error c2;
+        if[.z.o in`l64`m64;
+            .log.info"Try setting the env variable:\nexport SSL_VERIFY_SERVER=NO"];
+            exit 1];
+    "Connection success";
     }
 
 .event.addhandler[`.z.pc;`.massive.pc]
 
-/ 
 start 1234
