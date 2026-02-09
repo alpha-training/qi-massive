@@ -44,4 +44,4 @@ start:{[target]
 
 .event.addhandler[`.z.pc;`.massive.pc]
 
-start 1234
+/ start 1234
