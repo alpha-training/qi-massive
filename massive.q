@@ -40,5 +40,7 @@ start:{[target]
 
 .event.addhandler[`.z.pc;`.massive.pc]
 
-/ .massive.start 5010
-/ .massive.start `tp1
+/
+
+.massive.start 5010
+.massive.start `tp1
