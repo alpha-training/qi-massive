@@ -5,8 +5,6 @@
 \d .massive
 
 H:0Ni
-
-/2. Connection Setup
 UN:.conf.MASSIVE_UNIVERSE
 DATA:.conf.MASSIVE_DATA
 
@@ -16,12 +14,9 @@ header:"GET /stocks HTTP/1.1\r\nHost: ",l,".massive.com\r\n\r\n"; // delayed or 
 TICKERS:$["*"~UN;DATA,".*";","sv(DATA,"."),/:","vs UN]
 
 .z.ws:{[msg]
-    / Massive sends a list of dicts
     {[x]
-        / If it's a data packet, normalise and send to tp
         if[(ev:`$x`ev)in`AM`AS;
             :neg[H](`.u.upd;ev;norm.A x)];
-        / If it's a status packet, handle the handshake/auth
         if[ev=`status;
             if[(status:`$x`status)=`connected;neg[.z.w] .j.j`action`params!("auth";.conf.MASSIVE_KEY)];
             if[status=`auth_success;neg[.z.w] .j.j`action`params!("subscribe";TICKERS)]];
@@ -31,7 +26,6 @@ TICKERS:$["*"~UN;DATA,".*";","sv(DATA,"."),/:","vs UN]
 pc:{[h] if[h=H;.log.fatal"Lost connection to target. Exiting"]}
 
 start:{[target]
-    /launch websocket connection
     if[null H::.ipc.conn .qi.tosym target;
         if[null H::first c:.ipc.tryconnect target;
             .log.fatal"Could not connect to ",.qi.tostr[target]," '",last[c],"'. Exiting"]];
