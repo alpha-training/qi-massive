@@ -7,11 +7,13 @@
 H:0Ni
 
 /2. Connection Setup
-l:$[.conf.mode~"live";"socket";"delayed"];
+UN:.conf.MASSIVE_UNIVERSE
+DATA:.conf.MASSIVE_DATA
+
+l:$[.conf.MASSIVE_MODE~"live";"socket";"delayed"];
 url:`$":wss://",l,".massive.com:443";
 header:"GET /stocks HTTP/1.1\r\nHost: ",l,".massive.com\r\n\r\n"; // delayed or live stream should be optional
-API_KEY:.conf.apikey; //WILL NEED TO BE EDITABLE potentially within funciton or in conf??
-TICKERS:$[.conf.tickers~"*";.conf.data,".*";","sv (.conf.data,"."),/:","vs .conf.tickers]
+TICKERS:$["*"~UN;DATA,".*";","sv(DATA,"."),/:","vs UN]
 
 .z.ws:{[msg]
     / Massive sends a list of dicts
@@ -21,7 +23,7 @@ TICKERS:$[.conf.tickers~"*";.conf.data,".*";","sv (.conf.data,"."),/:","vs .conf
             :neg[H](`.u.upd;ev;norm.A x)];
         / If it's a status packet, handle the handshake/auth
         if[ev=`status;
-            if[(status:`$x`status)=`connected;neg[.z.w] .j.j`action`params!("auth";API_KEY)];
+            if[(status:`$x`status)=`connected;neg[.z.w] .j.j`action`params!("auth";.conf.MASSIVE_KEY)];
             if[status=`auth_success;neg[.z.w] .j.j`action`params!("subscribe";TICKERS)]];
         }each .j.k msg;
     };
@@ -34,7 +36,7 @@ start:{[target]
         if[null H::first c:.ipc.tryconnect target;
             .log.fatal"Could not connect to ",.qi.tostr[target]," '",last[c],"'. Exiting"]];
     .log.info "Connection sequence initiated...";
-    if[not h:first c:.qi.try1[url;header;0Ni];
+    if[not h:first c:.qi.try[url;header;0Ni];
         .log.error err:c 2;
         if[err like"*Protocol*";
             if[.z.o in`l64`m64;
