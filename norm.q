@@ -1,5 +1,7 @@
 / Normalisation functions
 
+\d .massive
+
 norm.A:{[x]
   (12h$1970.01.01D+1000000*7h$x`s; / Start Time 
                 `$x`sym; / Sym
