@@ -34,12 +34,12 @@ start:{[target]
         if[null H::first c:.ipc.tryconnect target;
             .log.fatal"Could not connect to ",.qi.tostr[target]," '",last[c],"'. Exiting"]];
     .log.info "Connection sequence initiated...";
-    if[not first c:.qi.try1[url;header;0Ni];
+    if[not h:first c:.qi.try1[url;header;0Ni];
         .log.error c 2;
         if[.z.o in`l64`m64;
             .log.info"Try setting the env variable:\nexport SSL_VERIFY_SERVER=NO"];
-            exit 1];
-    .log.info"Connection success";
+        exit 1];
+    if[h;.log.info"Connection success"];
     }
 
 .event.addhandler[`.z.pc;`.massive.pc]
