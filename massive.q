@@ -39,7 +39,7 @@ start:{[target]
         if[.z.o in`l64`m64;
             .log.info"Try setting the env variable:\nexport SSL_VERIFY_SERVER=NO"];
             exit 1];
-    "Connection success";
+    .log.info"Connection success";
     }
 
 .event.addhandler[`.z.pc;`.massive.pc]
