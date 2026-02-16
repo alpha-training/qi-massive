@@ -28,7 +28,6 @@ insertlocal:{
     if[f=`status;
         if[`connected=status:`$x`status;neg[.z.w] .j.j`action`params!("auth";.conf.MASSIVE_KEY)];
         if[status=`auth_success;neg[.z.w] .j.j`action`params!("subscribe";TICKERS)]];
-    show x
         }each .j.k x;
     };
 start:{[target]
