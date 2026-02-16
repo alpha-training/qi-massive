@@ -7,11 +7,12 @@
 
 H:0Ni
 UN:.conf.MASSIVE_UNIVERSE
+ASSET:lower .conf.MASSIVE_ASSET
 DATA:.conf.MASSIVE_DATA
 
 l:$[.conf.MASSIVE_MODE~"live";"socket";"delayed"];
 url:`$":wss://",l,".massive.com:443";
-header:"GET /stocks HTTP/1.1\r\nHost: ",l,".massive.com\r\n\r\n"; // delayed or live stream should be optional
+header:"GET /",ASSET," HTTP/1.1\r\nHost: ",l,".massive.com\r\n\r\n"; // delayed or live stream should be optional
 TICKERS:$["*"~UN;DATA,".*";","sv(DATA,"."),/:","vs UN]
 
 sendtotp:{
