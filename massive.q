@@ -19,11 +19,13 @@ sendtotp:{
         if["AM"~f:x`ev;:neg[H](`.u.upd;`MassiveBar1m;norm.A x)];
         if["A"~f;:neg[H](`.u.upd;`MassiveBar1s;norm.A x)];
  }
+
 insertlocal:{
     if["AM"~f:x`ev;(t:`MassiveBar1m)insert norm.A x];
     if["A"~f;(t:`MassiveBar1s)insert norm.A x];
     if[not`g=attr get[t]`sym;update `g#sym from t]
  }
+
 .z.ws:{
     {if[(f:`$x`ev)in`AM`A;:$[.qi.isproc;sendtotp;insertlocal]x];
     if[f=`status;
@@ -31,6 +33,7 @@ insertlocal:{
         if[status=`auth_success;neg[.z.w] .j.j`action`params!("subscribe";TICKERS)]];
         }each .j.k x;
     };
+
 start:{[target]
     if[.qi.isproc;
         if[null H::.ipc.conn .qi.tosym target;
