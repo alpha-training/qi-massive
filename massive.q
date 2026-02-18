@@ -2,8 +2,11 @@
 .qi.import`ipc;
 .qi.import`log;
 .qi.frompkg[`massive;`norm]
+.qi.loadschemas`massive
 
 \d .massive
+
+.qi.requireconfs`MASSIVE_KEY
 
 H:0Ni
 UN:.conf.MASSIVE_UNIVERSE
@@ -19,12 +22,9 @@ TICKERS:$["*"~UN;DATA,".*";","sv(DATA,"."),/:","vs UN]
 sendtotp:{
         if["AM"~f:x`ev;:neg[H](`.u.upd;`MassiveBar1m;norm.A x)];
         if["A"~f;:neg[H](`.u.upd;`MassiveBar1s;norm.A x)];
+        if[]
  }
-/
-sendtotp:{
-        neg[`. `H](`.u.upd;;norm.A x)(`MassiveBar1m;`MassiveBar1s)first where x[`ev]in'("AM";"A");
- }
-\
+
 insertlocal:{
     if["AM"~f:x`ev;(t:`MassiveBar1m)insert norm.A x];
     if["A"~f;(t:`MassiveBar1s)insert norm.A x];
@@ -46,7 +46,7 @@ start::{
             if[null H::first c:.ipc.tryconnect .ipc.conns[`tp1]`port;
             .log.fatal"Could not connect to ",.qi.tostr[first target]," '",last[c],"'. Exiting"]];] 
     .log.info "Connection sequence initiated...";
-    if[not h:first c:.qi.try[.massive.url;.massive.header;0Ni];
+    if[not h:first c:.qi.try[url;header;0Ni];
         .log.error err:c 2;
         if[err like"*Protocol*";
             if[.z.o in`l64`m64;
