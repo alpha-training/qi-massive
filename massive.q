@@ -5,8 +5,6 @@
 .qi.import`log;
 .qi.frompkg[`massive;`norm]
 
-if[not .qi.isproc;.qi.loadschemas`alpaca]
-
 \d .massive
 
 H:0Ni
