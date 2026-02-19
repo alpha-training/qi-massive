@@ -1,0 +1,19 @@
+{
+  "packages": {
+    "ipc": {
+      "repo": "alpha-training/qi-ipc",
+      "ref": "main",
+      "sha": "a3ad029f402d53abea431dd1b4210df5a680e002"
+    },
+    "event": {
+      "repo": "alpha-training/qi-event",
+      "ref": "main",
+      "sha": "e65ef0eb70692f33470676811bf58799958da515"
+    },
+    "massive": {
+      "repo": "alpha-training/qi-massive",
+      "ref": "main",
+      "sha": "453321e4cf0734a0db3d856377dbd622f7829f0d"
+    }
+  }
+}

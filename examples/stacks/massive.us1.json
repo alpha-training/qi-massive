@@ -1,0 +1,41 @@
+{
+  "version": "1.0",
+  "stack": "equities.us1",
+  "base_port": 5000,
+  "vars": {
+    "qbin": "${env:QHOME}/${.z.o}/q",
+    "cmd": "nohup ${qbin}",
+    "data": "${env:DATA}/equities.us1",
+    "taskset": ""
+  },
+  "processes": {
+    "c2": {
+      "proc": "c2",
+      "cmd": "${qbin}"
+    },
+    "tp1": {
+      "proc": "tp",
+      "port_offset": 10,
+      "cmd": "${qbin} something_else",
+      "taskset": "1,2",
+      "args": [
+        "-t",
+        "1000"
+      ]
+    },
+    "rdb1": {
+      "proc": "rdb",
+      "port_offset": 12,
+      "depends_on": [
+        "tp1"
+      ]
+    },
+    "massive": {
+      "proc": "massive",
+      "port_offset": 13,
+      "depends_on": [
+        "tp0"
+      ]
+    }
+  }
+}

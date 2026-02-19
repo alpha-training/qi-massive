@@ -3,12 +3,17 @@
 \d .massive
 
 norm.A:{[x]
-  (12h$1970.01.01D+1000000*7h$x`s; / Start Time 
-                `$x`sym; / Sym
-                9h$x`o;  / Open
-                9h$x`h;  / High
-                9h$x`l; / Low
-                9h$x`c; / Close
-                9h$x`vw; / VWAP
-                7h$x`v)  / Volume
-  }
+  ( 12h$1970.01.01D+1000000*7h$x`s; / start time of aggregate widow
+    12h$1970.01.01D+1000000*7h$x`e;  / end time of aggregate window
+    `$x`sym;                         / sym
+    7h$x`v;                          / volume
+    7h$x`av;                         / accumulated_volume
+    9h$x`vw;                         / tick_vwap
+    9h$x`o;                          / tick_open
+    9h$x`c;                          / tick_close
+    9h$x`h;                          / tick_high
+    9h$x`l;                          / tick_low
+    9h$x`a;                          / daily_vwap
+    7h$x`z                           / average_trade_size
+  )
+ }

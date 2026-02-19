@@ -1,33 +1,33 @@
 \e 1
+.qi.requireconfs`MASSIVE_KEY
+
 .qi.import`ipc;
 .qi.import`log;
 .qi.frompkg[`massive;`norm]
-.qi.loadschemas`massive
+
+if[not .qi.isproc;.qi.loadschemas`alpaca]
 
 \d .massive
 
-.qi.requireconfs`MASSIVE_KEY
-
 H:0Ni
-UN:.conf.MASSIVE_UNIVERSE
-ASSET:lower .conf.MASSIVE_ASSET
-DATA:.conf.MASSIVE_DATA
+UN:upper .qi.getconf[`MASSIVE_UNIVERSE;"*"]
+ASSET:lower .qi.getconf[`MASSIVE_ASSET;"stocks"]
+DATA:upper .qi.getconf[`MASSIVE_DATA;"AM"]
 
-l:$[.conf.MASSIVE_MODE~"live";"socket";"delayed"];
+l:$[.qi.getconf[`MASSIVE_MODE;"delayed"]~"live";"socket";"delayed"];
 url:`$":wss://",l,".massive.com:443";
 header:"GET /",ASSET," HTTP/1.1\r\nHost: ",l,".massive.com\r\n\r\n"; // delayed or live stream should be optional
 TICKERS:$["*"~UN;DATA,".*";","sv(DATA,"."),/:","vs UN]
 
 
 sendtotp:{
-        if["AM"~f:x`ev;:neg[H](`.u.upd;`MassiveBar1m;norm.A x)];
-        if["A"~f;:neg[H](`.u.upd;`MassiveBar1s;norm.A x)];
-        if[]
+        if["AM"~f:x`ev;:neg[H](`.u.upd;`MassiveBar1m;.z.p,norm.A x)];
+        if["A"~f;:neg[H](`.u.upd;`MassiveBar1s;.z.p,norm.A x)];
  }
 
 insertlocal:{
-    if["AM"~f:x`ev;(t:`MassiveBar1m)insert norm.A x];
-    if["A"~f;(t:`MassiveBar1s)insert norm.A x];
+    if["AM"~f:x`ev;(t:`MassiveBar1m)insert .z.p,norm.A x];
+    if["A"~f;(t:`MassiveBar1s)insert .z.p,norm.A x];
     if[not`g=attr get[t]`sym;update `g#sym from t]
  }
 
@@ -35,10 +35,10 @@ insertlocal:{
     {if[(f:`$x`ev)in`AM`A;:$[.qi.isproc;sendtotp;insertlocal]x];
     if[f=`status;
         if[`connected=status:`$x`status;neg[.z.w] .j.j`action`params!("auth";.conf.MASSIVE_KEY)];
-        if[status=`auth_success;neg[.z.w] .j.j`action`params!("subscribe";TICKERS)]];
+        if[`auth_failed=status;:.log.fatal"Ensure MASSIVE_KEY is Entered Correctly In .conf"]
+        if[`auth_success=status;neg[.z.w] .j.j`action`params!("subscribe";TICKERS)]];
         }each .j.k x;
     };
-
 
 start::{
     if[.qi.isproc;
@@ -53,3 +53,6 @@ start::{
                 .log.info"Try setting the env variable:\nexport SSL_VERIFY_SERVER=NO"]]];
     if[h;.log.info"Connection success"];
  }
+
+\d .
+
