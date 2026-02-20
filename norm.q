@@ -3,8 +3,7 @@
 \d .massive
 
 norm.A:{[x]
-  ( 12h$1970.01.01D+1000000*7h$x`s; / start time of aggregate widow
-    12h$1970.01.01D+1000000*7h$x`e;  / end time of aggregate window
+  ( 12h$1970.01.01D+1000000*7h$x`s;  / end time of aggregate window
     `$x`sym;                         / sym
     7h$x`v;                          / volume
     7h$x`av;                         / accumulated_volume
@@ -14,6 +13,7 @@ norm.A:{[x]
     9h$x`h;                          / tick_high
     9h$x`l;                          / tick_low
     9h$x`a;                          / daily_vwap
-    7h$x`z                           / average_trade_size
-  )
+    7h$x`z;
+    .z.p;
+    0Np)
  }
