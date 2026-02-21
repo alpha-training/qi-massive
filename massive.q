@@ -2,7 +2,6 @@
 .qi.requireconfs`MASSIVE_KEY
 
 .qi.import`ipc;
-.qi.import`log;
 .qi.frompkg[`massive;`norm]
 
 \d .massive
@@ -33,7 +32,7 @@ insertlocal:{
     {if[(f:`$x`ev)in`AM`A;:$[.qi.isproc;sendtotp;insertlocal]x];
     if[f=`status;
         if[`connected=status:`$x`status;neg[.z.w] .j.j`action`params!("auth";.conf.MASSIVE_KEY)];
-        if[`auth_failed=status;:.log.fatal"Ensure MASSIVE_KEY is Entered Correctly In .conf"]
+        if[`auth_failed=status;:.qi.fatal"Ensure MASSIVE_KEY is Entered Correctly In .conf"]
         if[`auth_success=status;neg[.z.w] .j.j`action`params!("subscribe";TICKERS)]];
         }each .j.k x;
     };
@@ -42,14 +41,14 @@ start::{
     if[.qi.isproc;
         if[null H::.ipc.conn target:.proc.self`depends_on;
             if[null H::first c:.ipc.tryconnect .ipc.conns[`tp1]`port;
-            .log.fatal"Could not connect to ",.qi.tostr[first target]," '",last[c],"'. Exiting"]];] 
-    .log.info "Connection sequence initiated...";
+            .qi.fatal"Could not connect to ",.qi.tostr[first target]," '",last[c],"'. Exiting"]];] 
+    .qi.info "Connection sequence initiated...";
     if[not h:first c:.qi.try[url;header;0Ni];
-        .log.error err:c 2;
+        .qi.error err:c 2;
         if[err like"*Protocol*";
             if[.z.o in`l64`m64;
-                .log.info"Try setting the env variable:\nexport SSL_VERIFY_SERVER=NO"]]];
-    if[h;.log.info"Connection success"];
+                .qi.info"Try setting the env variable:\nexport SSL_VERIFY_SERVER=NO"]]];
+    if[h;.qi.info"Connection success"];
  }
 
 \d .
