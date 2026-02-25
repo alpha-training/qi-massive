@@ -14,17 +14,16 @@ DATA:upper .qi.getconf[`MASSIVE_DATA;"AM"]
 l:$[.qi.getconf[`MASSIVE_MODE;"delayed"]~"live";"socket";"delayed"];
 url:`$":wss://",l,".massive.com:443";
 header:"GET /",ASSET," HTTP/1.1\r\nHost: ",l,".massive.com\r\n\r\n"; // delayed or live stream should be optional
-TICKERS:$["*"~UN;DATA,".*";","sv(DATA,"."),/:","vs UN]
-
+TICKERS:$[UN~"*";","sv(","vs DATA),\:".*";","sv cross[(","vs DATA),\:".";","vs UN]]
 
 sendtotp:{
-        if["AM"~f:x`ev;:neg[H](`.u.upd;`MassiveBar1m;.z.p,norm.A x)];
-        if["A"~f;:neg[H](`.u.upd;`MassiveBar1s;.z.p,norm.A x)];
+        if["AM"~f:x`ev;:neg[H](`.u.upd;`MassiveBar1m;norm.A x)];
+        if["A"~f;:neg[H](`.u.upd;`MassiveBar1s;norm.A x)];
  }
 
 insertlocal:{
-    if["AM"~f:x`ev;(t:`MassiveBar1m)insert .z.p,norm.A x];
-    if["A"~f;(t:`MassiveBar1s)insert .z.p,norm.A x];
+    if["AM"~f:x`ev;(t:`MassiveBar1m)insert norm.A x];
+    if[f~enlist"A";(t:`MassiveBar1s)insert norm.A x];
     if[not`g=attr get[t]`sym;update `g#sym from t]
  }
 
@@ -47,7 +46,7 @@ start::{
         .qi.error err:c 2;
         if[err like"*Protocol*";
             if[.z.o in`l64`m64;
-                .qi.info"Try setting the env variable:\nexport SSL_VERIFY_SERVER=NO"]]];
+                .qi.fatal"Try setting the env variable:\nexport SSL_VERIFY_SERVER=NO"]]];
     if[h;.qi.info"Connection success"];
  }
 
