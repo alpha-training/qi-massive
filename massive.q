@@ -18,7 +18,7 @@ TICKERS:$[UN~"*";","sv(","vs DATA),\:".*";","sv cross[(","vs DATA),\:".";","vs U
 
 sendtotp:{
         if["AM"~f:x`ev;:neg[H](`.u.upd;`MassiveBar1m;norm.A x)];
-        if["A"~f;:neg[H](`.u.upd;`MassiveBar1s;norm.A x)];
+        if[f~enlist"A";:neg[H](`.u.upd;`MassiveBar1s;norm.A x)];
  }
 
 insertlocal:{
