@@ -19,7 +19,7 @@ TD:`A`AM!`MassiveBar1s`MassiveBar1m
 
 .z.ws:{
     a:update `$ev from .j.k x;
-    if[count st:select from a where ev=`status;msg.status each `$st`status];
+    if[count st:select from a where ev=`status;msg.status each`$st`status];
     {[x;k] msg.data[k;delete ev from select from x where ev=k]}[a]each exec distinct ev from a where ev in key TD;
     };
 
