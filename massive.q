@@ -4,8 +4,6 @@
 .qi.frompkg[`proc;`feed]
 .qi.frompkg[`massive;`norm]
 
-\d .massive
-
 H:0Ni
 UN:upper .qi.getconf[`MASSIVE_UNIVERSE;"*"]
 ASSET:lower .qi.getconf[`MASSIVE_ASSET;"stocks"]
@@ -19,7 +17,7 @@ TD:`A`AM!`MassiveBar1s`MassiveBar1m
 
 .z.ws:{
     {
-        if[not null t:TD ev:`$x`ev;dbg;:.feed.upd[t;norm[ev]x]];
+        if[not null t:TD ev:`$x`ev;:.feed.upd[t;norm[ev]x]];
         if[ev=`status;
             if[`connected=status:`$x`status;neg[.z.w] .j.j`action`params!("auth";.conf.MASSIVE_KEY)];
             if[`auth_failed=status;:.qi.fatal"Ensure MASSIVE_KEY is Entered Correctly in .conf"]
@@ -29,4 +27,4 @@ TD:`A`AM!`MassiveBar1s`MassiveBar1m
 
 \d .
 
-start:{.feed.start . .massive`header`url}
+start:{.feed.start[header;url]}
