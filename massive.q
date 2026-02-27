@@ -44,7 +44,7 @@ start::{
     .qi.info "Connection sequence initiated...";
     if[not h:first c:.qi.try[url;header;0Ni];
         .qi.error err:c 2;
-        if[err like"*conns*";
+        if[err like"*conn*";
             if[.z.o in`w64;
             .qi.fatal"Try setting the env variable:\n$env:PATH += \";",.qi.ospath[.qi.pkgs`$"deps-win"],"\"; $env:SSL_VERIFY_SERVER = \"NO\""]]
         if[err like"*Protocol*";
