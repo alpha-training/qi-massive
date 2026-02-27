@@ -16,12 +16,14 @@ TICKERS:$[UN~"*";","sv(","vs DATA),\:".*";","sv cross[(","vs DATA),\:".";","vs U
 TD:`A`AM!`MassiveBar1s`MassiveBar1m
 
 / TODO - Ian - we should vectorise the norm, not one line at a time
+.z.ws:{$[0=type a:.j.k x;process each a@/:get group key each a;process a]}
 
-.z.ws:{
-    a:update `$ev from .j.k x;
+process:{
+    a:update `$ev from x;
     if[count st:select from a where ev=`status;msg.status each`$st`status];
     {[x;k] msg.data[k;delete ev from select from x where ev=k]}[a]each exec distinct ev from a where ev in key TD;
     };
+
 
 msg.status:{[status]
     if[`connected=status;:neg[.z.w] .j.j`action`params!("auth";.conf.MASSIVE_KEY)];
