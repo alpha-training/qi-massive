@@ -15,7 +15,6 @@ TICKERS:$[UN~"*";","sv(","vs DATA),\:".*";","sv cross[(","vs DATA),\:".";","vs U
 
 TD:`A`AM!`MassiveBar1s`MassiveBar1m
 
-/ TODO - Ian - we should vectorise the norm, not one line at a time
 .z.ws:{$[0=type a:.j.k x;process each a@/:get group key each a;process a]}
 
 process:{
