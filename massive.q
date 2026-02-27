@@ -26,7 +26,7 @@ process:{
     };
 
 msg.status:{[status]
-    .log.info "Massive ",.qi.tostr status;
+    .qi.info "Massive ",.qi.tostr status;
     if[`connected=status;:neg[.z.w] .j.j`action`params!("auth";.conf.MASSIVE_KEY)];
     if[`auth_failed=status;.qi.fatal"Ensure MASSIVE_KEY is Entered Correctly in .conf"];
     if[`auth_success=status;neg[.z.w] .j.j`action`params!("subscribe";TICKERS)];
