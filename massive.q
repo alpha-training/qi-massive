@@ -2,6 +2,7 @@
 .qi.requireconfs`MASSIVE_KEY
 
 .qi.import`ipc;
+.qi.frompkg[`proc;`feed]
 .qi.frompkg[`massive;`norm]
 
 \d .massive
