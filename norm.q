@@ -1,7 +1,5 @@
 / Normalisation functions
 
-\d .massive
-
 norm.A:norm.AM:{[x]
   (12h$1970.01.01D+1000000*7h$x`s;  / end time of aggregate window
     `$x`sym;                         / sym 
