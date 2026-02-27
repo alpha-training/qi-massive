@@ -15,15 +15,21 @@ TICKERS:$[UN~"*";","sv(","vs DATA),\:".*";","sv cross[(","vs DATA),\:".";","vs U
 
 TD:`A`AM!`MassiveBar1s`MassiveBar1m
 
+/ TODO - Ian - we should vectorise the norm, not one line at a time
+
 .z.ws:{
-    {
-        if[not null t:TD ev:`$x`ev;dbg;:.feed.upd[t;norm[ev]x]];
-        if[ev=`status;
-            if[`connected=status:`$x`status;neg[.z.w] .j.j`action`params!("auth";.conf.MASSIVE_KEY)];
-            if[`auth_failed=status;:.qi.fatal"Ensure MASSIVE_KEY is Entered Correctly in .conf"]
-            if[`auth_success=status;neg[.z.w] .j.j`action`params!("subscribe";TICKERS)]];
-        }each .j.k x;
+    a:update `$ev from .j.k x;
+    msg.status each `$exec status from a where ev=`status;
+    {[x;k] msg.data[k;delete ev from select from x where ev=k]}[a]each exec distinct ev from a where ev in key TD;
     };
+
+msg.status:{[status]
+    if[`connected=status;:neg[.z.w] .j.j`action`params!("auth";.conf.MASSIVE_KEY)];
+    if[`auth_failed=status;.qi.fatal"Ensure MASSIVE_KEY is Entered Correctly in .conf"];
+    if[`auth_success=status;neg[.z.w] .j.j`action`params!("subscribe";TICKERS)];
+    }
+
+msg.data:{[ev;x] .feed.upd[TD ev;norm[ev]x]}
 
 \d .
 
