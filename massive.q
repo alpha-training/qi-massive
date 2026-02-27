@@ -54,6 +54,3 @@ start::{
  }
 
 \d .
-
-  if[.z.o in`w64;
-                .qi.fatal"Try setting the env variable:\n$env:PATH += \";",.qi.ospath[.qi.pkgs`$"deps-win"],"\"; $env:SSL_VERIFY_SERVER = \"NO\""]]
